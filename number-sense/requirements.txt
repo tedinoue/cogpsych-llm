@@ -1,0 +1,3 @@
+# Only the stimulus generator needs a third-party package.
+# The run harness uses the Python standard library only (urllib).
+Pillow>=9.0
