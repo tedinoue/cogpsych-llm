@@ -1,5 +1,7 @@
 # Number sense in vision-language models
 
+**📄 Full write-up: [PAPER.md](PAPER.md)** (or the formatted [.docx](Number_Sense_in_Vision_LLMs.docx)).
+
 A replication of the classic human dot-estimation paradigm, run on vision-LLMs.
 
 ## The question
