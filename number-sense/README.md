@@ -60,7 +60,7 @@ models. It is not an artifact of any one lab.
 | Subitizing (1–4) | **perfect, zero variance** | imperfect | imperfect (slight over) |
 | Estimation precision | medium | **noisiest**, sometimes breaks down | **tightest, most accurate** |
 | High-N bias | under-estimates | ~unbiased / slightly over | mild under, tight |
-| Round-number anchoring | **strong** (snaps to 25; anchors on 25 for N=30) | none | none |
+| Round-number anchoring | **strong** (mode holds 25 across true 25–35) | mild (modal plateaus, locks 40 at top) | mild (modal plateaus on 26, 30) |
 | Reliability | clean | refusals / garbled outputs | clean (0 failures) |
 
 Three through-lines emerge:
@@ -74,25 +74,26 @@ Three through-lines emerge:
    sometimes breaks down. The analog magnitude system appears universal; its *precision* is
    capability-dependent.
 
-3. **Human-like round-number anchoring is model-specific.** The decision-strategy overlay
-   that makes humans cluster on round numbers (Solstad et al. 2026) shows up **strongly in
-   Grok and not at all in Llama or Gemini**. The point where the model most resembles human
-   *strategy* is the most variable across models.
+3. **Human-like round-number anchoring appears in all three models, varying in strength.** The
+   decision-strategy overlay that makes humans cluster on round numbers (Solstad et al. 2026) shows
+   up in every model — pronounced in Grok, milder in Gemini and Llama. The degree of this human-like
+   strategy is what varies across models.
 
 ### Relation to humans, and a dedicated anchoring test
 
-The round-number anchoring we see in Grok is **not** a non-human quirk — humans do exactly
-this. Solstad et al. (2026), using a near-identical 1–50 dot paradigm, find people estimate
-by comparing to remembered references and partitioning, anchoring on round numbers
-("I can't get away from my start-guess at 34"). So Grok's anchoring is a point of
-*convergence* with human decision strategy, not a divergence.
+The round-number anchoring we see is **not** a non-human quirk — humans do exactly this. Solstad et
+al. (2026), using a near-identical 1–50 dot paradigm, find people estimate by comparing to
+remembered references and partitioning, anchoring on round numbers ("I can't get away from my
+start-guess at 34"). So the models' anchoring is a point of *convergence* with human decision
+strategy, not a divergence.
 
-But how strong is it, and is it general? The main study's high-N set sizes (15/20/25/30/40)
-are themselves mostly round, so they can't actually test for anchoring. A **dedicated test —
-every integer 25–40, all three models** — is in [`anchoring/`](anchoring/). Result: anchoring
-is **model-specific**. Grok's modal answer locks on 25 across true counts 25–35 (a staircase);
-Gemini and Llama track the true count (a diagonal). So the human-like anchoring strategy shows
-up strongly in one model and is absent in two others. See [`anchoring/README.md`](anchoring/README.md).
+But how strong is it, and is it general? The main study's high-N set sizes (15/20/25/30/40) are
+themselves mostly round, so they can't actually test for anchoring. A **dedicated test — every
+integer 25–40, all three models** — is in [`anchoring/`](anchoring/). Result: **all three models
+anchor**, their modal answers forming round-number plateaus (a staircase), differing in strength —
+Grok's mode holds 25 across true counts 25–35 (an 11-count capture zone, 55% of all answers round),
+while Gemini and Llama show milder ≈4-count plateaus (on 26/30/40). See
+[`anchoring/README.md`](anchoring/README.md).
 
 ### A separate finding: the count word gates the count (lexical effect)
 

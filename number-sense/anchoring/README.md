@@ -32,29 +32,44 @@ true N):
 answering "25" is also just *correct*, so that metric conflates anchoring with accuracy. The
 modal staircase and the per-N histograms are the clean signals.)
 
-## Result: anchoring is model-specific — only Grok anchors
+## Result: all three models anchor — differing in strength
 
 ![three-model comparison](figures/anchor_three_model.png)
 
-| Model | Anchors? | Modal behavior (true 25 → 40) |
-|---|---|---|
-| **Grok** (grok-4.20-non-reasoning, xAI) | **Yes, strongly** | modal **locked on 25 from true 25 through 35**, then steps to 32, then 40 — a staircase |
-| **Gemini** (gemini-2.5-flash-lite, Google) | No | modal **climbs with the true count** (tracks the diagonal) |
-| **Llama** (llama-3.2-11b-vision, Meta) | No | modal **climbs with the true count** (noisy; mild stickiness on 40 at the top) |
+Every model's modal answer locks onto values and holds them across runs of consecutive true counts
+before stepping — a **staircase**, not a smooth diagonal. Modal sequences (true 25 → 40):
 
-- **All three systematically *under-estimate*** (mean below the true count, gap widening with N) —
-  a shared compression. But only Grok's *modal* answer anchors.
-- **Grok's anchoring is dramatic**: its single most likely answer doesn't move across an 11-unit
-  range of true counts (25→35). See [`figures/anchor_grok_hist_curve.png`](figures/anchor_grok_hist_curve.png)
-  and the per-N histograms [`figures/anchor_grok_hist.png`](figures/anchor_grok_hist.png).
-- **Gemini and Llama track** the true count with no round-number lock-on
-  ([gemini](figures/anchor_gemini_hist_curve.png), [llama](figures/anchor_llama_hist_curve.png)).
+- **Grok:**  `25 25 25 25 25 25 25 25 25 25 25 32 32 40 40 40`
+- **Gemini:** `25 26 26 26 26 30 30 30 30 31 30 33 35 35 36 36`
+- **Llama:**  `20 25 28 23 27 30 31 30 30 33 36 39 40 40 40 40`
+
+Gemini's mode holds ~26 across true 26–29, then locks on **30** across 30–33, climbs in steps, and
+reaches only 35–36 even at true 40. Llama (noisier) bounces near 25 for 25–29, sticks near **30**
+for 30–33, then climbs and locks on **40** for the top four. Grok shows the same behavior in extreme
+form (its mode holds the value 25 across true counts 25–35).
+
+Quantitatively (true 25–40; a non-anchoring estimator gives a modal multiple-of-5 at ~4/16 and ~20%
+of all answers on a multiple of 5):
+
+| Measure | Grok (xAI) | Gemini (Google) | Llama (Meta) |
+|---|---|---|---|
+| True counts whose **mode is a multiple of 5** | **14 / 16** | 8 / 16 | 9 / 16 |
+| Widest **capture zone** (consecutive counts on one locked mode) | **11** (value 25) | 4 (26, 30) | 4 (40) |
+| Share of **all** answers on a multiple of 5 | **55 %** | 25 % | 26 % |
+
+- **All three under-estimate** (mean below the true count, gap widening with N) — a shared compression.
+- **All three anchor** — their modal answers form round-number plateaus. They differ in **strength**:
+  Grok is extreme (an 11-count capture zone on 25; 55% of all answers round), while Gemini and Llama
+  are milder (≈4-count plateaus; bulk distributions only just above the ~20% chance rate, but the
+  *mode* still locks into round treads). Per-model views:
+  [grok](figures/anchor_grok_hist_curve.png), [gemini](figures/anchor_gemini_hist_curve.png),
+  [llama](figures/anchor_llama_hist_curve.png).
 
 **Takeaway:** round-number anchoring — a documented human estimation strategy (anchoring-and-
 adjustment; people cluster numerosity estimates on round values, e.g. Tversky & Kahneman 1974;
-Solstad et al. 2026) — appears strongly in one frontier model and is absent in two others. It is
-**not a universal property of vision-LLM number estimation.** It belongs to each model's
-particular "numerical personality."
+Solstad et al. 2026) — appears in **all three** models from three independent labs. It is
+**architecture-general in kind but model-specific in degree**: every model anchors, and they differ
+markedly in how wide the capture zones are and how strongly responses pile onto round values.
 
 ## Honest caveats
 
