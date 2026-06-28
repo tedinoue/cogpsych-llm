@@ -25,9 +25,10 @@ for ax, title in [(axm, "MODAL response vs true count"), (axM, "MEAN response vs
         ax.axhline(rn, color="gray", ls=":", lw=0.5, alpha=0.4)
     ax.set_xlabel("true count"); ax.set_ylabel("reported count")
     ax.set_title(title); ax.legend(fontsize=9); ax.grid(alpha=0.2)
-fig.suptitle("Round-number anchoring across three labs — only Grok anchors\n"
-             "Grok's modal LOCKS on 25 (true 25-35) then steps 32→40 (staircase); "
-             "Gemini & Llama track the true count (diagonal)", fontsize=13)
+fig.suptitle("Round-number anchoring across three labs — all anchor, differing in strength\n"
+             "Each model's MODAL answer locks onto values and steps between them (a staircase, not a ramp).\n"
+             "Red lines mark multiples of 5. Grok: widest capture (25 held N=25-35). Gemini: 26→30→35. Llama: noisy, locks to 40.",
+             fontsize=11)
 plt.tight_layout(rect=[0, 0, 1, 0.93])
 plt.savefig("anchor_three_model.png", dpi=120)
 print("wrote anchor_three_model.png")

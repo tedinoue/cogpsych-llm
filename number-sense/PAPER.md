@@ -10,20 +10,22 @@
 We ran a classic human numerosity-estimation paradigm on vision-language models, asking not
 whether they can count but what the *shape* of their number cognition is, and whether it matches
 the human profile. Across three models from three independent labs (xAI's Grok, Meta's Llama,
-Google's Gemini), a coarse human signature replicates: near-exact performance on small sets
-(subitizing) gives way, above ~4 items, to estimation whose error grows with the number being
-judged (Weber's law). The fine structure varies by model. Only one model (Grok) subitizes
-perfectly; estimation precision tracks model capability; and **round-number anchoring** — a
-documented human estimation strategy in which responses cluster on multiples of five — appears in
-**all three** models, varying markedly in strength. We demonstrate this with a dedicated test
-covering every integer from 25 to 40: each model's most-common answer locks onto preferred values
-and holds them across runs of consecutive true counts (a staircase), Grok most extremely (its mode
-remains "25" across true counts 25 through 35), Gemini and Llama more mildly (modal plateaus of
-about four counts on values such as 26, 30, and 40). We conclude that the analog magnitude system
-(subitizing plus magnitude-scaled error) is architecture-general, and that the human-like
-round-number-anchoring strategy is architecture-general in kind while differing in degree across
-models; estimation precision, in turn, tracks model capability. All raw model responses are
-published; every reported value was scored by reading the responses, not by automated parsing.
+Google's Gemini), a coarse human signature replicates: near-exact performance on small sets gives
+way, above ~4 items, to estimation whose absolute error grows with the number being judged. The
+fine structure varies by model. One model (Grok) is exact across the small-set range; the three
+differ in estimation precision; and **round-number anchoring** — a documented human estimation
+pattern in which responses cluster on multiples of five — appears in **all three** models, varying
+markedly in strength. We demonstrate the anchoring with a dedicated test covering every integer from
+25 to 40: each model's most-common answer locks onto preferred values and holds them across runs of
+consecutive true counts (a staircase), Grok most extremely (its mode remains "25" across true counts
+25 through 35), Gemini and Llama more mildly (modal plateaus of about four counts on values such as
+26, 30, and 40). The human-like estimation profile (small-set exactness, magnitude-scaled error,
+round-number anchoring) is present in every model we tested, and the anchoring is shared in kind
+while differing sharply in degree. We hold the underlying-mechanism question open: these are behavioral
+matches to the human profile, and we note where a model account (a learned round-number output prior;
+precision-weighted inference) could produce the same pattern without a dedicated "number system." All
+raw model responses are published; every reported value was scored by reading the responses, with a
+non-authoritative regex hint also present in the logs but never used (see §6).
 
 ---
 
@@ -87,14 +89,19 @@ summaries with their counts noted.
 - *Anchoring test* (§4): every integer 25–40, 15 layouts × 15 repetitions = 225 calls per integer
   per model, designed specifically to separate round-number anchoring from accuracy.
 
-## 3. Results: the analog signature is architecture-general
+## 3. Results: the estimation signature appears in every model tested
 
 All three models show the coarse human signature: accurate on small sets, then estimation whose
-absolute error grows with the number judged.
+absolute error grows with the number judged. We describe this in behavioral terms. The human terms
+of art (an analog magnitude system, subitizing) name posited internal mechanisms; what we measure is
+the output profile, and matched output does not by itself establish the human mechanism, a point we
+return to in the discussion.
 
-- **Subitizing range.** Performance is best at the smallest counts. Notably, only **Grok**
-  subitizes *perfectly* (exact, zero variance, for 1–4); both Llama and Gemini make occasional
-  errors even at counts of 2–4. Clean subitizing is therefore the exception among these models,
+- **Small-set range.** Performance is best at the smallest counts. Only **Grok** is *exact* (zero
+  variance, for 1–4); both Llama and Gemini make occasional errors even at counts of 2–4. (We call
+  this small-set exactness rather than "subitizing," which in humans names a specific parallel
+  individuation process with a reaction-time signature we did not measure.) Clean exactness at small
+  counts is therefore the exception among these models,
   not the rule.
 - **Weberian error growth.** Above the subitizing range, the spread of responses widens with the
   true count — error scaling with magnitude, the analog-estimation signature. The coefficient of
@@ -153,28 +160,39 @@ milder: their overall multiple-of-five rates sit only just above chance (25–26
 answers nonetheless lock into round plateaus (four-count treads on 26, 30, and 40), which is the
 anchoring signature appearing in the mode even when the bulk distribution looks near-chance.
 
-Round-number anchoring is a documented *human* estimation strategy (anchoring-and-adjustment; the
+Round-number anchoring is a documented *human* estimation pattern (anchoring-and-adjustment; the
 clustering of numerosity estimates on round values — Tversky & Kahneman, 1974; Solstad et al.,
-2026), and is thus a point of convergence between model and human cognition. Our data indicate this
-convergence is **architecture-general in kind but model-specific in degree**: every model anchors,
-and they differ markedly in how wide the capture zones are and how strongly the responses pile onto
-round values.
+2026), and the same pattern in the models is a clear point of convergence with human behavior. Every
+model we tested anchors, and they differ markedly in how wide the capture zones are and how strongly
+the responses pile onto round values: shared in kind, model-specific in degree.
 
 ## 5. Discussion
 
-Two layers appear in these data. The **analog magnitude layer** — subitizing followed by
-magnitude-scaled estimation error — is shared across all three models and matches the human core
-number sense in shape. The **decision-strategy layer** that humans lay on top of the analog
-estimate — comparison to references, partitioning, and round-number anchoring — also appears across
-all three, but its *strength* varies sharply by model: pronounced in Grok (wide capture zones, a
-majority of answers on round values), milder in Gemini and Llama (short modal plateaus, bulk
-distributions only just above chance).
+Read behaviorally, two regularities appear in these data. The first is the estimation profile,
+small-set exactness followed by magnitude-scaled error, present in all three models and matching the
+shape of the human core number sense. The second is round-number anchoring, also present in all
+three, with strength varying sharply by model: pronounced in Grok (wide capture zones, a majority of
+answers on round values), milder in Gemini and Llama (short modal plateaus, bulk distributions only
+just above chance). The same anchoring is documented in humans on this paradigm, so its appearance in
+the models is convergence with human behavior, and we state that plainly.
 
-This maps onto a useful framing of human numerical cognition itself, in which a shared, evolutionarily
-old analog system is augmented by learned, language-mediated procedures. The models reproduce the
-analog layer near-universally and also exhibit the round-number-anchoring strategy near-universally,
-differing in how strongly that strategy is expressed. We summarize this as each model having its own
-"numerical personality": the broad shape is convergent in kind, the degree of each feature is not.
+The standard account of human number cognition reads these as two layers, an evolutionarily old
+analog magnitude system augmented by learned, language-mediated decision strategies. The behavioral
+match invites that framing, and we use it as the natural description. But we are measuring output, not
+internal organization, and two more economical model-side accounts predict the same data without a
+dedicated "number system," so we name them rather than assume the human mechanism. First, the
+round-number clustering may be a property of the model's *output prior* over number tokens: round
+counts ("about thirty," "roughly twenty-five") are over-represented in training text, so a language
+model's distribution over number words is lumpy on multiples of five before any estimation strategy
+is invoked. That alone predicts the anchoring. Second, both the estimation spread and the anchoring
+strength may be one quantity seen from two sides: under a precision-weighted-inference reading, a
+round-valued prior dominates when the perceptual read is imprecise and yields when it is sharp, which
+predicts that the model with the looser estimation spread (Grok) should also anchor hardest and the
+tightest (Gemini) least, the ordering we in fact observe. We do not adjudicate among the two-layer,
+output-prior, and precision-weighting accounts here; the behavioral convergence with humans holds
+under all three, and which mechanism underlies it is the question a follow-up should target. We
+summarize the descriptive result as each model having its own "numerical personality": the broad
+shape is convergent in kind, the degree of each feature is not.
 
 A note on the round-number result and human comparison: it would be a mistake to read this
 anchoring as a *non-human* quirk. Humans anchor on round numbers in exactly this paradigm. The
@@ -204,18 +222,38 @@ The harness therefore writes every full response to disk, and analysis is perfor
 responses; the answer-extraction is done by a human reader, with every ambiguous case (self-
 corrections, ranges, refusals) adjudicated explicitly and recorded. This repository publishes all
 raw responses so that any reader can re-score them independently. The visualization scripts operate
-only on the human-read answer values, never on raw model output.
+only on the human-read answer values (the `AI_READ_answers.json` files), never on raw model output.
+
+One point of exactness about the published data, since the claim above is strong. Each raw record
+also carries a `guess` field produced by a naive last-integer regex. That field is exactly the kind
+of automated extraction this section warns against; it exists only as a console progress-indicator
+during collection, and no reported value in this paper or any figure was taken from it. The values
+of record are in the `AI_READ_answers.json` files, transcribed and read by hand. We leave `guess` in
+the released records rather than delete it, both because altering raw data after collection is itself
+bad practice and because its disagreements with the read values, on the very responses where a model
+narrates a count before committing to a total, are a useful illustration of why the regex cannot be
+trusted. The `results.csv` table is generated alongside `guess` and should not be used for scoring;
+the `AI_READ_answers.json` files are the data of record.
 
 ## 7. Limitations
 
-- All three models are small/cheap-tier. Whether estimation precision keeps improving, and whether
-  anchoring emerges, at frontier scale is open.
-- One prompt, one session per condition. Robustness to prompt variation is untested here.
-- The coefficient of variation is reported as observed rather than fit to a constant-CV model; the
-  high-N under-estimation conflates genuine estimation compression with, in Grok's case,
-  round-number snapping.
-- Llama's noise (refusals, garble, outliers) partly reflects model capacity, not only a different
-  number sense; its "tracking" classification is robust but its data are messy.
+- All three models are small/cheap-tier. Whether the estimation precision and the anchoring strength
+  change at frontier scale is open.
+- **The three models differ in vendor, parameter count, and release vintage at once, so n=3 cannot
+  attribute the precision differences to any one of these.** We describe the precision differences;
+  we do not claim they track "capability," which the design cannot isolate. Separating capability from
+  size and vintage needs a within-family size ladder, which we did not run.
+- We report absolute error growing with magnitude, not a fitted constant coefficient of variation:
+  the CV is not cleanly constant, so we do not claim a formal Weber's-law fit. The high-N
+  under-estimation conflates estimation compression with, in Grok's case, round-number snapping.
+- Small-set exactness is reported from accuracy alone. Subitizing in humans is defined by a
+  reaction-time signature; latency was logged but not analyzed for it, so we do not claim subitizing
+  in the technical sense, only exactness at small counts.
+- Three transformer vision-language models trained on overlapping web-scale data are three samples,
+  not a sampling of architectures; "present in every model tested" is the claim, not invariance across
+  architectures the study did not vary.
+- Llama is the noisiest model (refusals, garble, outliers); its anchoring is present but its data are
+  messy, and the noise partly reflects model capacity.
 - Scoring by reading, while more reliable than parsing for this material, is not blinded; the
   per-response judgments and every ambiguous case are published for audit.
 
