@@ -77,14 +77,20 @@ Three through-lines emerge:
    Grok and not at all in Llama or Gemini**. The point where the model most resembles human
    *strategy* is the most variable across models.
 
-### Relation to humans
+### Relation to humans, and a dedicated anchoring test
 
 The round-number anchoring we see in Grok is **not** a non-human quirk — humans do exactly
 this. Solstad et al. (2026), using a near-identical 1–50 dot paradigm, find people estimate
 by comparing to remembered references and partitioning, anchoring on round numbers
 ("I can't get away from my start-guess at 34"). So Grok's anchoring is a point of
-*convergence* with human decision strategy, not a divergence. What the cross-model picture
-adds is that this convergence is itself model-dependent.
+*convergence* with human decision strategy, not a divergence.
+
+But how strong is it, and is it general? The main study's high-N set sizes (15/20/25/30/40)
+are themselves mostly round, so they can't actually test for anchoring. A **dedicated test —
+every integer 25–40, all three models** — is in [`anchoring/`](anchoring/). Result: anchoring
+is **model-specific**. Grok's modal answer locks on 25 across true counts 25–35 (a staircase);
+Gemini and Llama track the true count (a diagonal). So the human-like anchoring strategy shows
+up strongly in one model and is absent in two others. See [`anchoring/README.md`](anchoring/README.md).
 
 ### A separate finding: the count word gates the count (lexical effect)
 
