@@ -1,0 +1,3 @@
+Not collected: a sustained provider 503 outage stalled thinking-on collection before the
+non-verbal baseline was run. The thinking-off nv baseline (../../thinking-off/nv/) stands;
+top this up with run_segmented_experiment_thinking.py --arm nv --resume when capacity allows.

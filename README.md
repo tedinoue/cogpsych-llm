@@ -16,6 +16,7 @@ strong–Sapir-Whorf / emergent-world-model argument); these are its empirical s
 | Study | Question | Status |
 |-------|----------|--------|
 | [`number-sense/`](number-sense/) | Do vision-LLMs show the human numerosity-estimation signature — subitizing, Weber's law, and the decision-strategy overlay (round-number anchoring)? | Data released; writeup in progress |
+| [`segmented-counting/`](segmented-counting/) | Does verbal interference disrupt an LLM's running count the way it disrupts human exact counting (Frank et al. 2012)? | Data released; clean null — and a methodological point: interference paradigms read out the *maintenance substrate*, which an LLM's context window doesn't share with humans |
 
 More sub-studies will be added as the larger paper develops.
 
